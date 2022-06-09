@@ -1,7 +1,9 @@
 import unittest
-from hashmap import *
+from hashmap import HMOpenAddressSet, length, cons, remove, member,\
+    intersection, to_list, from_list, concat, Map, reduce, filter, Empty
 from hypothesis import given
 import hypothesis.strategies as st
+import itertools
 
 
 class TestHMOpenAddressSet(unittest.TestCase):
