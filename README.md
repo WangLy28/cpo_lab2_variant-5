@@ -2,13 +2,13 @@
 
 Objectives:
 
-- Design algorithms and data structures in immutable styles 
-- Usage of recursion  
-- Develop unit and property-based tests  
+- Design algorithms and data structures in immutable styles
+- Usage of recursion
+- Develop unit and property-based tests
 
 - Design algorithms and data structures in immutable styles
 - Usage of recursion
-- Develop unit and property-based tests  
+- Develop unit and property-based tests
 
 ## Project structure
 
