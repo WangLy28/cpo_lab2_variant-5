@@ -1,6 +1,6 @@
-from typing import Callable, TypeVar, Any, Generic
+from typing import TypeVar, Any, Generic
 import typing
-import itertools
+# import itertools
 
 Value = TypeVar("Value", str, int, float, object, bool, list, Any)
 
