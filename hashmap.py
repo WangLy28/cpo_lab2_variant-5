@@ -42,10 +42,13 @@ class HMOpenAddressSet(Generic[Value]):
                             i -= 1
             self.set = set(self.table)
 
-    def __eq__(self, other: 'HMOpenAddressSet') -> bool:
-        if (len(self.table) == 0) and (len(other.table) > 0):
+    # def __eq__(self, other: 'HMOpenAddressSet') -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, HMOpenAddressSet):
+            return NotImplemented
+        elif (len(self.table) == 0) and (len(other.table) > 0):
             return False
-        if (len(self.table) > 0) and (len(other.table) == 0):
+        elif (len(self.table) > 0) and (len(other.table) == 0):
             return False
         for value in self.set:
             if value not in other.set:
@@ -91,7 +94,7 @@ def cons(value: typing.Any, HMOSet: 'HMOpenAddressSet') -> 'HMOpenAddressSet':
 def remove(HMOSet: 'HMOpenAddressSet', value: typing.Any) -> set:
     '''delete the value'''
     if value not in HMOSet.table:
-        return HMOSet
+        return HMOSet.set
     NewHMOSet = HMOpenAddressSet(HMOSet.table)
     temp = NewHMOSet.table.index(value)
     del NewHMOSet.table[temp]
@@ -110,6 +113,7 @@ def member(value: typing.Any, HMOSet: 'HMOpenAddressSet') -> bool:
 def intersection(HMOSet1: 'HMOpenAddressSet',
                  HMOSet2: 'HMOpenAddressSet') -> 'HMOpenAddressSet':
     '''intersection'''
+    lst: typing.List[typing.Any]
     lst = []
     if (len(HMOSet1.table) == 0) or (len(HMOSet2.table) == 0):
         return HMOpenAddressSet(lst)
