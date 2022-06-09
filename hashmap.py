@@ -167,7 +167,7 @@ def reduce(lst: typing.List[typing.Any],
     '''Reduce process elements and build a value by the function'''
     if len(lst) == 0:
         return 0
-    if lst[0] == None:
+    if lst[0] is None:
         return 0
     return function(lst[0:1], reduce(lst[1:], function))
 
