@@ -55,6 +55,9 @@ Objectives:
   - Add `hashmap.py`
   - Add `hashmap_test.py`
   - Add README.
+- 13.06.2022
+  - Add PBT test for monoid properties.
+  - Update README.
 
 ## Design notes
 

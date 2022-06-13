@@ -1,5 +1,5 @@
 import unittest
-from hashmap import HMOpenAddressSet, length, cons, remove, member,\
+from hashmap import HMOpenAddressSet, length, cons, remove, member, \
     intersection, to_list, from_list, concat, Map, reduce, filter, Empty
 from hypothesis import given
 import hypothesis.strategies as st
@@ -13,8 +13,7 @@ class TestHMOpenAddressSet(unittest.TestCase):
         l1 = cons(None, cons(1, empty))
         l2 = cons(1, cons(None, empty))
         self.assertEqual(str(empty.set), str(set([])))
-        self.assertTrue(str(l1.set) == "{None, 1}"
-                        or str(l1.set) == "{1, None}")
+        self.assertTrue(str(l1.set) == "{None, 1}" or str(l1.set) == "{1, None}")
         self.assertNotEqual(empty, l1)
         self.assertNotEqual(empty, l2)
         self.assertEqual(l1, l2)
@@ -57,14 +56,14 @@ class TestHMOpenAddressSet(unittest.TestCase):
             else:
                 return False
 
-        self.assertIn(filter(HMOpenAddressSet([0, 1, 2]),
-                             is_even).set, [{0, 2}, {2, 0}])
+        self.assertIn(filter(HMOpenAddressSet([0, 1, 2])
+                             , is_even).set, [{0, 2}, {2, 0}])
 
     def test_Map(self) -> None:
         '''test Map'''
         empty = HMOpenAddressSet()
-        self.assertIn(Map(cons(None, cons(1, empty)).table, str),
-                      [['None', '1'], ['1', 'None']])
+        self.assertIn(Map(cons(None, cons(1, empty)).table, str)
+                      , [['None', '1'], ['1', 'None']])
 
     def test_reduce(self) -> None:
         '''test reduce'''
@@ -82,6 +81,12 @@ class TestHMOpenAddressSet(unittest.TestCase):
         a = to_list(HMOpenAddressSet(a))
         b = from_list(a)
         self.assertEqual(length(b.table), len(a))
+
+    @given(st.lists(st.integers()))
+    def test_monoid(self, lst) -> None:
+        a = from_list(lst)
+        self.assertEqual(concat(HMOpenAddressSet(), a), a)
+        self.assertEqual(concat(a, HMOpenAddressSet()), a)
 
 
 if __name__ == '__main__':
