@@ -58,6 +58,8 @@ Objectives:
 - 13.06.2022
   - Add PBT test for monoid properties.
   - Update README.
+- 19.06.2022
+  - Add check test.
 
 ## Design notes
 
