@@ -13,8 +13,7 @@ class TestHMOpenAddressSet(unittest.TestCase):
         l1 = cons(None, cons(1, empty))
         l2 = cons(1, cons(None, empty))
         self.assertEqual(str(empty.set), str(set([])))
-        self.assertTrue(str(l1.set) == "{None, 1}"
-                        or str(l1.set) == "{1, None}")
+        self.assertTrue(str(l1.set) == "{None, 1}" or str(l1.set) == "{1, None}")
         self.assertNotEqual(empty, l1)
         self.assertNotEqual(empty, l2)
         self.assertEqual(l1, l2)
@@ -57,14 +56,14 @@ class TestHMOpenAddressSet(unittest.TestCase):
             else:
                 return False
 
-        self.assertIn(filter(HMOpenAddressSet([0, 1, 2]),
-                             is_even).set, [{0, 2}, {2, 0}])
+        self.assertIn(filter(HMOpenAddressSet([0, 1, 2])
+                             , is_even).set, [{0, 2}, {2, 0}])
 
     def test_Map(self) -> None:
         '''test Map'''
         empty = HMOpenAddressSet()
-        self.assertIn(Map(cons(None, cons(1, empty)).table, str),
-                      [['None', '1'], ['1', 'None']])
+        self.assertIn(Map(cons(None, cons(1, empty)).table, str)
+                      , [['None', '1'], ['1', 'None']])
 
     def test_reduce(self) -> None:
         '''test reduce'''
@@ -83,11 +82,43 @@ class TestHMOpenAddressSet(unittest.TestCase):
         b = from_list(a)
         self.assertEqual(length(b.table), len(a))
 
-    @given(st.lists(st.integers()))
-    def test_monoid(self, lst) -> None:
-        a = from_list(lst)
-        self.assertEqual(concat(HMOpenAddressSet(), a), a)
-        self.assertEqual(concat(a, HMOpenAddressSet()), a)
+    @given(a=st.integers(), b=st.integers(), c=st.integers())
+    def test_monoid(self, a, b, c) -> None:
+        testset = from_list([a, b, c])
+        self.assertEqual(concat(HMOpenAddressSet(), testset), testset)
+        self.assertEqual(concat(testset, HMOpenAddressSet()), testset)
+        self.assertEqual(intersection(HMOpenAddressSet(), testset).table, [])
+        self.assertEqual(intersection(testset, HMOpenAddressSet()).table, [])
+
+    @given(a=st.integers(), b=st.integers(), c=st.integers())
+    def test_immutability_check(self, a, b, c):
+        if a == 0:
+            a = a + 2
+        if b == 0:
+            b = b + 4
+        if c == 0:
+            c = c + 8
+        if a == b:
+            a = a * 2
+        if b == c:
+            c = c * 4
+        if a == c:
+            c = c * 8
+        testset = HMOpenAddressSet([a, b])
+        test1 = cons(c, testset)
+        self.assertNotEqual(test1, testset)
+        test2 = remove(testset, b)
+        self.assertNotEqual(test2, test1.set)
+        test3 = Empty(test2)
+        self.assertNotEqual(test3.set, test2)
+        test4 = concat(test3, HMOpenAddressSet([b]))
+        self.assertNotEqual(test4, test3)
+
+        def add(d):
+            return d * 2
+
+        test5 = Map(testset.table, add)
+        self.assertNotEqual(test5, testset.table)
 
 
 if __name__ == '__main__':
